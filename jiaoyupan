@@ -1,0 +1,40 @@
+// ==UserScript==
+// @name         教育盘免费下载白嫖
+// @namespace    http://tampermonkey.net/
+// @version      0.3
+// @description  this is biaobai jiaoyunpan
+// @author       marksong
+// @match        *://jiaoyupan.com/*
+// @match        *://zhuxuepan.com/*
+// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @grant        none
+// ==/UserScript==
+
+(function () {
+      'use strict';
+      var area = document.querySelectorAll(".download_box .download_box_container");
+      for (var i = 0; i < area.length; i++) {
+        (function (j) {
+          var item = area[j]
+          var div = document.createElement('div');
+          div.style = "width: 120px; height: 40px; line-height: 40px; background: #1977fa; color: #fff; border-radius: 10px; cursor: pointer; font-size: 16px; text-align: center;";
+          div.innerText = '点击我下载哦~';
+          item.appendChild(div);
+          div.onclick = function () {
+            var pswd = item.querySelector(".copy_pswd");
+            if (pswd) {
+              var a = pswd.attributes.onclick.nodeValue;
+              var b = a.split(",");
+              var x = b[0].split("'")[1];
+              var y = b[1].split("'")[1];
+              var origin = window.location.origin;
+              var href = origin + "/plugin.php?id=threed_attach:downld&aid=" + x + "&formhash=" + y;
+              var link = document.createElement('a');
+              link.href = href;
+              link.target = '_blank';
+              link.click();
+            }
+          };
+        })(i);
+      }
+    })();
